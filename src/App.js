@@ -1,5 +1,7 @@
 import './App.css';
 import Cohorts from "./components/Cohorts/Cohorts.js"
+import Upload from "./components/Upload/Upload.js"
+
 
 import React from "react";
 import {
@@ -21,6 +23,9 @@ function App() {
             <li>
               <Link to="/students">Students</Link>
             </li>
+            <li>
+              <Link to="/assessments/upload">Assessments Upload</Link>
+            </li>
           </ul>
 
           <Switch>
@@ -29,6 +34,9 @@ function App() {
             </Route>
             <Route path="/students">
               <p>replace me</p>
+            </Route>
+            <Route path="/assessments/upload">
+              <Upload />
             </Route>
           </Switch>
         </div>
