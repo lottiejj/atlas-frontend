@@ -5,67 +5,47 @@ class Students extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      students: [],
-      currentSort: "down"
+      students: []
     }
   }
 
-  // onSortChange() {
-  //   const { currentSort } = this.state;
-  //   let nextSort;
-  //   if (this.state.currentSort === "down") {nextSort = "up"}
-  //   else if (this.state.currentSort === "up") {nextSort = "default"}
-  //   else if (this.state.currentSort === "default") {nextSort = "down"}
-  //   this.setState({currentSort: nextSort})
-  // }
-
-  sortTable () {
+  sortTable (num) {
     
-    let table, i, x, y, switching;
+    let table, i, x, y, processing, direction = "up", counter = 0 ;
     table = document.getElementById("table");
-    switching = true;
+    processing = true;
 
-    while (switching) {
-      switching = false;
+    while (processing) {
+      processing = false;
       let rows = table.rows;
 
       for (i = 1; i < (rows.length -1);i++) {
 
-        x = rows[i].getElementsByTagName("TD")[0].innerHTML.toLowerCase();
-        y = rows[i+1].getElementsByTagName("TD")[0].innerHTML.toLowerCase();
+        x = rows[i].getElementsByTagName("TD")[num].innerHTML.toLowerCase();
+        y = rows[i+1].getElementsByTagName("TD")[num].innerHTML.toLowerCase();
 
-        if (x > y) {
+        if (direction === "up" && x > y) {
           rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
-          switching = true;
+          counter ++;
+          processing = true;
           break
+        }
+
+        if (direction === "down" && y > x) {
+            rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
+            counter ++;
+            processing = true;
+            break
+        }
+
+        if(counter === 0 && direction === "up"){
+            direction = "down";
+            processing = true;
         }
       }
     }
   }
 
-  sortTable2 () {
-    
-    let table, i, x, y, switching;
-    table = document.getElementById("table");
-    switching = true;
-
-    while (switching) {
-      switching = false;
-      let rows = table.rows;
-
-      for (i = 1; i < (rows.length -1);i++) {
-
-        x = rows[i].getElementsByTagName("TD")[1].innerHTML.toLowerCase();
-        y = rows[i+1].getElementsByTagName("TD")[1].innerHTML.toLowerCase();
-
-        if (x > y) {
-          rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
-          switching = true;
-          break
-        }
-      }
-    }
-  }
 
   componentDidMount() {
     fetch(`${process.env.REACT_APP_API_URL}/api/students`)
@@ -74,15 +54,15 @@ class Students extends Component {
   }
 
   render() {
-    const { currentSort } = this.state;
     return(
       <div>
+          <p>Click on headers to order alphaphetically acsending or decending.</p>
         <table id="table" border="1">
         <thead><tr>
-          <th onClick={this.sortTable} value="lastName">Last Name</th>
-          <th onClick={this.sortTable2} value="lastName">First Name</th>
-          <th value="githubUsername">Github Username</th>
-          <th value="email">email</th>
+          <th onClick={(e) => {this.sortTable(0)}} value="lastName">Last Name</th>
+          <th onClick={(e) => {this.sortTable(1)}} value="lastName">First Name</th>
+          <th onClick={(e) => {this.sortTable(2)}}  value="githubUsername">Github Username</th>
+          <th onClick={(e) => {this.sortTable(3)}}  value="email">email</th>
         </tr></thead>
           <StudentList students={this.state.students} />
       </table>
@@ -94,23 +74,3 @@ class Students extends Component {
 }
 
 export default Students
-
-///////////////////////////////////////////////////
-//test
-
-// import React from "react";
-
-// import { useTable } from "react-table"
-// import { MOCK_DATA } from "./__mocks__/student-data.js"
-// import { COLUMNS } from "./columns"
-
-// export const BasicTable = () => {
-
-//   const columns = useMemo(() => COLUMNS, [] )
-
-//   return (
-//     <div>
-
-//     </div>
-//   )
-// }

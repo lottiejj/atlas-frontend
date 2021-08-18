@@ -1,5 +1,6 @@
 import './App.css';
 import Cohorts from "./components/Cohorts/Cohorts.js"
+import Students from "./components/Students/Students.js"
 
 import React from "react";
 import {
