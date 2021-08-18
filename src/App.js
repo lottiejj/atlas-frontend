@@ -28,7 +28,7 @@ function App() {
               <Cohorts />
             </Route>
             <Route path="/students">
-              <p>replace me</p>
+              <Students />
             </Route>
           </Switch>
         </div>
