@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import StudentList from "./StudentList.js"
+import StudentList from "./StudentList.js";
 
 class Students extends Component {
   constructor(props) {
@@ -9,40 +9,39 @@ class Students extends Component {
     }
   }
 
-  sortTable (num) {
+  sortTable (tableName, num) {
     
     let table, i, x, y, processing, direction = "up", counter = 0 ;
-    table = document.getElementById("table");
+    table = document.getElementById(tableName);
     processing = true;
 
     while (processing) {
-      processing = false;
-      let rows = table.rows;
+        processing = false;
+        let rows = table.rows;
 
-      for (i = 1; i < (rows.length -1);i++) {
+        for (i = 1; i < (rows.length -1);i++) {
 
-        x = rows[i].getElementsByTagName("TD")[num].innerHTML.toLowerCase();
-        y = rows[i+1].getElementsByTagName("TD")[num].innerHTML.toLowerCase();
+            x = rows[i].getElementsByTagName("TD")[num].innerHTML.toLowerCase();
+            y = rows[i+1].getElementsByTagName("TD")[num].innerHTML.toLowerCase();
 
-        if (direction === "up" && x > y) {
-          rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
-          counter ++;
-          processing = true;
-          break
+            if (direction === "up" && x > y) {
+                rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
+                counter ++;
+                processing = true;
+                break
+            }
+
+            else if (direction === "down" && y > x) {
+                rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
+                counter ++;
+                processing = true;
+                break
+            }
         }
-
-        if (direction === "down" && y > x) {
-            rows[i].parentNode.insertBefore(rows[i+1],rows[i]);
-            counter ++;
-            processing = true;
-            break
-        }
-
-        if(counter === 0 && direction === "up"){
+        if (direction === "up" && counter === 0){
             direction = "down";
             processing = true;
         }
-      }
     }
   }
 
@@ -50,25 +49,22 @@ class Students extends Component {
   componentDidMount() {
     fetch(`${process.env.REACT_APP_API_URL}/api/students`)
       .then(res => res.json())
-      .then(data => this.setState({students: data.students}))
+      .then(data => this.setState({students: data.students}));
   }
 
   render() {
     return(
       <div>
           <p>Click on headers to order alphaphetically acsending or decending.</p>
-        <table id="table" border="1">
+        <table id="student-list" border="1">
         <thead><tr>
-          <th onClick={(e) => {this.sortTable(0)}} value="lastName">Last Name</th>
-          <th onClick={(e) => {this.sortTable(1)}} value="lastName">First Name</th>
-          <th onClick={(e) => {this.sortTable(2)}}  value="githubUsername">Github Username</th>
-          <th onClick={(e) => {this.sortTable(3)}}  value="email">email</th>
+          <th id="lastNameHeader" onClick={(e) => {this.sortTable("student-list", 0)}} value="lastName">Last Name</th>
+          <th id="firstNameHeader"  onClick={(e) => {this.sortTable("student-list", 1)}} value="firstName">First Name</th>
+          <th id="githubUsernameHeader" onClick={(e) => {this.sortTable("student-list", 2)}}  value="githubUsername">Github Username</th>
+          <th id="emailHeader" onClick={(e) => {this.sortTable("student-list", 3)}}  value="email">email</th>
         </tr></thead>
           <StudentList students={this.state.students} />
-      </table>
-      {this.state.currentSort}
-
-      </div>
+      </table></div>
     )
   }
 }

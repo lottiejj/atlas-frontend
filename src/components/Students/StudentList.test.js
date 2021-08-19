@@ -5,10 +5,17 @@ test('Renders StudentList', async () => {
   const students = [
     {
       "id": "1",
-      "firstName": "test",
-      "lastName": "testerson",
-      "githubUsername": "justyourstandardghuser",
+      "firstName": "Test",
+      "lastName": "Testerson",
+      "githubUsername": "iTest",
       "email": "real@email.com"
+    },
+    {
+      "id": "2",
+      "firstName": "Anonymous",
+      "lastName": "User",
+      "githubUsername": "ucantseeme",
+      "email": "invisible@email.com"
     }
   ]
   render(<StudentList students={students} />);
