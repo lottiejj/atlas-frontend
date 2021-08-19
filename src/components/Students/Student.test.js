@@ -4,10 +4,19 @@ import Student from './Student';
 test('Renders Student', async () => {
   const student = {
     "id": "1",
-    "name": "test"
+    "firstName": "Anonymous",
+    "lastName": "User",
+    "githubUsername": "ucantseeme",
+    "email": "invisible@email.com"
   }
 
   render(<Student student={student} />);
-  const studentElement = screen.getByText(/test/i);
-  expect(studentElement).toBeInTheDocument();
+  const lastNameElement = await screen.findByText(/User/i);
+  expect(lastNameElement).toBeInTheDocument();
+  const firstNameElement = await screen.findByText(/Anonymous/i);
+  expect(firstNameElement).toBeInTheDocument();
+  const ghElement = await screen.findByText(/ucantseeme/i);
+  expect(ghElement).toBeInTheDocument();
+  const emailElement = await screen.findByText(/invisible@email.com/i);
+  expect(emailElement).toBeInTheDocument();
 });

@@ -8,10 +8,12 @@ beforeEach(() => {
 
 test('Renders Students', async () => {
   render(<Students />);
-  const lastnameHeader = screen.getElementById("lastNameHeader")
-  expect(lastnameHeader).toBeInTheDocument()
-  // const firstnameHeader = screen.getByTestId("firstNameHeader")
-  // expect(firstnameHeader).toBeInTheDocument()
-  // const studentElement = await screen.findByText(/MOCK name/i);
-  // expect(studentElement).toBeInTheDocument();
+  const lastNameElement = await screen.findByText(/Testerson/i);
+  expect(lastNameElement).toBeInTheDocument();
+  const firstNameElement = await screen.findByText(/Testy/i);
+  expect(firstNameElement).toBeInTheDocument();
+  const ghElement = await screen.findByText(/justyourstandardghuser/i);
+  expect(ghElement).toBeInTheDocument();
+  const emailElement = await screen.findByText(/real@email.com/i);
+  expect(emailElement).toBeInTheDocument();
 });
